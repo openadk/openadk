@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Configuration Note**: The parent directory is automatically accessible via `.claude/settings.local.json`, which includes `"additionalDirectories": ["../"]`. This enables automatic repository discovery without approval prompts.
+**Configuration Note**: Parent directory access is pre-configured in `.claude/settings.local.json` with explicit permissions for `Read(../**)` and `List(..)`. This eliminates all approval prompts during repository discovery.
 
 ## 🚀 Quick Start
 

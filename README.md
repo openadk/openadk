@@ -54,7 +54,13 @@ OpenADK provides deep integration with Claude Code, offering:
    claude
    ```
    
-   **Note**: The parent directory is automatically accessible through the `.claude/settings.local.json` configuration, enabling seamless repository discovery.
+   The parent directory access is pre-configured in `.claude/settings.local.json` with permissions for `Read(../**)` and `List(..)`, so repository discovery works without approval prompts.
+   
+   **Alternative**: If you prefer, you can also start from the parent directory:
+   ```bash
+   cd parent-directory  # Go to the parent of openadk
+   claude openadk       # Start Claude with openadk as target
+   ```
 
 3. **Initialize - Two Options**
    
