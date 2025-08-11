@@ -137,9 +137,6 @@ If the current repository contains a `.claude/` directory with agent configurati
 5. Never put project-specific information in CLAUDE.md
 6. The toolkit's own documentation serves as its development guide
 
-
-Claude will automatically discover all git repositories in the parent directory when you type `start`.
-
 ## START_INSTRUCTIONS
 
 When the user types "start", follow these steps:

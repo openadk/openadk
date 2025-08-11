@@ -75,6 +75,16 @@ Please follow these steps:
 
 ## Development Process
 
+### Model-Agnostic Architecture
+
+While OpenADK currently focuses on Claude Code, we're building toward a **model-agnostic future** that will support multiple AI CLIs (Codex, Gemini, etc.). When contributing:
+
+1. **Avoid Model-Specific Features** - Design agents and workflows that can work with any LLM
+2. **Abstract Model Differences** - Use configuration layers to handle model-specific adaptations
+3. **Document Claude Dependencies** - Clearly note any features that are Claude-specific
+4. **Consider Portability** - Think about how your contribution would work with other AI assistants
+5. **Test with Future in Mind** - Consider how features would adapt to different models
+
 ### Working with Multiple Repositories
 
 OpenADK is designed to work across multiple repositories. When developing:
@@ -92,6 +102,7 @@ When creating or modifying agents:
 3. **Clear Communication** - Agent outputs should be actionable and clear
 4. **Error Handling** - Agents should gracefully handle edge cases
 5. **Performance** - Consider token usage and response times
+6. **Model Agnostic** - Write prompts that work across different LLMs, avoiding model-specific syntax
 
 ### Testing
 
