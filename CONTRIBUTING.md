@@ -104,21 +104,67 @@ When creating or modifying agents:
 
 ### Git Commit Messages
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for our commit messages. This leads to more readable messages that are easy to follow when looking through the project history.
+
+#### Format
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### Types
+* **feat**: A new feature or agent
+* **fix**: A bug fix
+* **docs**: Documentation only changes
+* **style**: Changes that do not affect the meaning of the code (formatting, missing semi-colons, etc)
+* **refactor**: A code change that neither fixes a bug nor adds a feature
+* **perf**: A code change that improves performance
+* **test**: Adding missing tests or correcting existing tests
+* **build**: Changes that affect the build system or external dependencies
+* **ci**: Changes to our CI configuration files and scripts
+* **chore**: Other changes that don't modify src or test files
+* **revert**: Reverts a previous commit
+
+#### Examples
+```
+feat: add system-architect agent for technology decisions
+
+- Implements comprehensive architecture analysis
+- Integrates with existing agent workflow
+- Adds documentation and examples
+
+Closes #123
+```
+
+```
+fix: correct repository discovery in multi-repo environments
+
+Previously failed when repository names contained spaces
+```
+
+```
+docs: update CONTRIBUTING.md with conventional commits
+```
+
+#### Guidelines
+* Use the present tense ("add feature" not "added feature")
+* Use the imperative mood ("move cursor to..." not "moves cursor to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
-* Consider starting the commit message with an applicable emoji:
-    * 🎨 `:art:` when improving the format/structure of the code
-    * 🚀 `:rocket:` when adding new agents or features
-    * 📝 `:memo:` when writing docs
-    * 🐛 `:bug:` when fixing a bug
-    * 🔥 `:fire:` when removing code or files
-    * 💚 `:green_heart:` when fixing CI build
-    * ✅ `:white_check_mark:` when adding tests
-    * 🔒 `:lock:` when dealing with security
-    * ⬆️ `:arrow_up:` when upgrading dependencies
-    * ⬇️ `:arrow_down:` when downgrading dependencies
+* Consider adding emoji after the description for visual clarity (optional):
+    * 🎨 when improving the format/structure of the code
+    * 🚀 when adding new agents or features
+    * 📝 when writing docs
+    * 🐛 when fixing a bug
+    * 🔥 when removing code or files
+    * 💚 when fixing CI build
+    * ✅ when adding tests
+    * 🔒 when dealing with security
+    * ⬆️ when upgrading dependencies
+    * ⬇️ when downgrading dependencies
 
 ### Documentation Styleguide
 

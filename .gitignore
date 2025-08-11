@@ -419,6 +419,9 @@ agent_workspace/
 agent_output/
 agent_cache/
 
+# Project artifacts directory (working space for agents)
+_project/
+
 # Test outputs
 test_results/
 test_reports/
