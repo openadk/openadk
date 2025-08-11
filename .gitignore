@@ -450,6 +450,8 @@ _project/*
 !_project/*/.gitkeep
 !_project/*/TEMPLATE_*.md
 !_project/*/TEMPLATE_*.yaml
+!_project/TEMPLATE_*.yaml
+!_project/TEMPLATE_*.md
 
 # Always ignore generated content (even if it matches patterns above)
 _project/PROJECT_CONTEXT.yaml

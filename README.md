@@ -53,6 +53,8 @@ OpenADK provides deep integration with Claude Code, offering:
    cd openadk
    claude
    ```
+   
+   **Note**: The parent directory is automatically accessible through the `.claude/settings.local.json` configuration, enabling seamless repository discovery.
 
 3. **Initialize - Two Options**
    

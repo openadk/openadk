@@ -2,12 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Configuration Note**: The parent directory is automatically accessible via `.claude/settings.local.json`, which includes `"additionalDirectories": ["../"]`. This enables automatic repository discovery without approval prompts.
+
 ## 🚀 Quick Start
 
 **Just type: `start`** - Claude will discover all repositories and begin working.
 **Or type: `start [repo1] [repo2]`** - Claude will work only with the specified repositories.
 
-**Important for Claude:** When you see "start", do not use any bash commands during initialization. Use only the Read and LS tools to understand the project context. The specific sequence is detailed in START_INSTRUCTIONS below.
+**Important for Claude:** When you see "start", do not use any bash commands during initialization. Use only the Read and LS tools to understand the project context. The parent directory (..) is a working directory, so LS tool can be used there without approval. The specific sequence is detailed below.
 
 (Don't use `/init` - that's only for CLAUDE.md improvements)
 
@@ -149,33 +151,35 @@ Understand what the user is asking for:
 - If "start repo1 repo2 ...": Work only with specified repositories
 
 ### Step 2: Read current project context (no bash commands)
-Use the Read tool and LS tool (only within openadk directory):
+Use the Read tool and LS tool:
 1. Read tool: README.md in current directory
 2. Read tool: CONTRIBUTING.md for development guidelines
-3. Read tool: _project/PROJECT_CONTEXT.yaml if it exists
-4. LS tool: Check .claude directory within openadk
-5. LS tool: Check _project directory within openadk
+3. Read tool: _project/PROJECT_CONTEXT.yaml (only if it exists from a previous run)
+4. LS tool: Check .claude directory
+5. LS tool: Check _project directory
+Note: PROJECT_CONTEXT.yaml is generated, not tracked in git
 
-### Step 3: Understand project from existing context
-Since LS tool for parent directory would require user approval:
-1. Check if PROJECT_CONTEXT.yaml already lists known repositories
-2. If user specified repositories (e.g., "start repo1 repo2"), note those names
-3. If just "start", assume working with openadk and any repos mentioned in PROJECT_CONTEXT.yaml
+### Step 3: Discover repositories (using LS tool)
+Since the parent directory is a working directory:
+1. LS tool: List parent directory (..) to see all directories
+2. For each directory found, use LS to check if it has a .git folder
+3. Build a list of actual git repositories
 
-### Step 4: Read known repositories (using Read tool only)
-For repositories identified in Step 3:
-1. Read tool: Try to read ../repo-name/README.md
-2. Read tool: Try to read configuration files like ../repo-name/package.json
-3. If files don't exist, that's fine - the repository may not exist
+### Step 4: Read discovered repositories (using Read tool)
+For each repository discovered in Step 3:
+1. Read tool: Read ../repo-name/README.md to understand purpose
+2. Read tool: Read configuration files like ../repo-name/package.json
+3. Build understanding of each repository's technology and purpose
 
 ### Step 5: Generate/Update PROJECT_CONTEXT.yaml
 Create or update a structured context store in `_project/` with:
-- Project metadata and purpose
-- Repository information and tech stacks
-- Available agents (if .claude/ exists)
+- Project metadata and purpose (from discovered repos, NOT including openadk itself)
+- Repository information and tech stacks (actual application repos only)
+- Available agents (from openadk's .claude/ directory)
 - Workflow patterns and development guidelines
 - Project-specific practices discovered
 - Quick access facts for agents
+Note: PROJECT_CONTEXT.yaml is .gitignored and unique to each user's setup
 
 ### Step 6: Report project status
 Provide a clear summary to the user:
@@ -191,8 +195,9 @@ Only now, after all context is gathered, you may use bash commands for actual de
 - Building, testing, or other development tasks
 
 ### Important notes
-- During initialization (steps 1-6): Use only Read tool and LS tool (within openadk only)
-- LS tool on directories outside openadk requires user approval - don't use during initialization
+- The parent directory (..) is automatically a working directory via settings.local.json
+- During initialization (steps 1-6): Use only Read and LS tools, no bash commands
+- LS tool can be used on parent directory and its subdirectories without approval
 - After initialization (step 7+): Bash commands are allowed for actual work
 - Never use bash to read file contents - always use the Read tool
 - The initialization phase is about understanding, not executing
@@ -214,30 +219,31 @@ Claude's process:
 1. Read current openadk project files:
    - Read tool: README.md
    - Read tool: CONTRIBUTING.md  
-   - Read tool: _project/PROJECT_CONTEXT.yaml (if exists)
-   - LS tool: .claude directory (within openadk)
-   - LS tool: _project directory (within openadk)
+   - Read tool: _project/PROJECT_CONTEXT.yaml (if exists from previous run - likely won't exist)
+   - LS tool: .claude directory
+   - LS tool: _project directory
 
-2. Identify repositories from context:
-   - Check PROJECT_CONTEXT.yaml for known repositories
-   - Note any repository names from user's command
+2. Discover repositories:
+   - LS tool: List parent directory (..)
+   - LS tool: Check ../repo1/.git, ../repo2/.git etc.
+   - Build list of actual git repositories
 
-3. Read identified repositories (may fail if they don't exist):
+3. Read discovered repositories:
    - Read tool: ../repo-name/README.md
-   - Read tool: ../repo-name/package.json
-   - Note: No LS tool outside openadk (would require approval)
+   - Read tool: ../repo-name/package.json or similar
+   - Understand each repository's purpose and tech stack
 
 4. Generate or update PROJECT_CONTEXT.yaml
 
-5. Report status to user based on what was found
+5. Report status to user with all discovered repositories
 
 6. Only now can bash commands be used for actual work
 ```
 
 Key principles: 
 - No bash commands during initialization
-- LS tool only within openadk directory (other directories need approval)
-- Read tool can try to read files anywhere (will fail gracefully if not found)
+- Parent directory is accessible via LS tool (configured in settings.local.json)
+- Read tool can read files from any discovered repository
 - Bash is for doing work after initialization is complete
 
 ## Repository Detection
