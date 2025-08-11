@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Parent directory permissions in `settings.local.json` for seamless repository discovery
+- Template file `TEMPLATE_PROJECT_CONTEXT.yaml` showing structure without hardcoded data
+- Flexible setup options for single or multiple repositories
+- Clarification that OpenADK works with any folder structure (no GitHub org required)
+
+### Changed
+- Improved initialization process to use only Read and LS tools (no bash commands)
+- PROJECT_CONTEXT.yaml is now properly .gitignored and generated per-user
+- Moved "Get Started" section to top of README for better user experience
+- Updated documentation to clarify repository discovery process
+
+### Fixed
+- Eliminated approval prompts during initialization with proper permissions configuration
+- Fixed PROJECT_CONTEXT.yaml being tracked with hardcoded content
+- Corrected initialization instructions to avoid bash commands that would fail
+
 ## [0.1.0] - 2025-08-11
 
 ### Added
@@ -56,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-For detailed commit history, see the [git log](https://github.com/[your-org]/openadk/commits/main).
+For detailed commit history, see the [git log](https://github.com/openadk/openadk/commits/main).
 
-[Unreleased]: https://github.com/[your-org]/openadk/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/[your-org]/openadk/releases/tag/v0.1.0
+[Unreleased]: https://github.com/openadk/openadk/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/openadk/openadk/releases/tag/v0.1.0

@@ -2,6 +2,67 @@
 
 A development toolkit that enhances Claude Code with specialized AI agents and multi-repository workflows for professional software development.
 
+## ⚡ Get Started with OpenADK
+
+### Setup Options
+
+**Option 1: For Multiple Repositories** - Clone OpenADK in a shared parent directory:
+```bash
+cd your-workspace
+git clone https://github.com/openadk/openadk.git
+```
+
+Your structure:
+```
+your-workspace/
+├── openadk/         # OpenADK toolkit
+├── repo-1/          # Your repositories
+├── repo-2/
+└── .../
+```
+
+**Option 2: For a Single Repository** - Clone OpenADK next to your specific repository:
+```bash
+cd my-repo/..
+git clone https://github.com/openadk/openadk.git
+```
+
+Your structure:
+```
+parent-folder/
+├── openadk/         # OpenADK toolkit
+└── my-repo/         # Your single repository
+```
+
+This works with any folder structure - no GitHub organization required. OpenADK will discover and work with any git repositories in the same parent directory.
+
+### Start Claude Code
+
+```bash
+cd openadk
+claude
+```
+
+**Alternative**: If you prefer, you can also start from the parent directory:
+```bash
+cd parent-directory  # Go to the parent of openadk
+claude openadk       # Start Claude with openadk as target
+```
+
+### Initialize Your Workspace
+
+**Option A: Work with all discovered repositories**
+Type `start` and Claude will:
+- Discover all git repositories in the parent directory
+- Check their status
+- Provide intelligent assistance across all repositories
+
+**Option B: Work with specific repositories only**
+Type `start [repo1] [repo2]` (e.g., `start backend frontend`) and Claude will:
+- Work only with the specified repositories
+- Ignore other repositories in the parent directory
+- Focus assistance on your selected repositories
+
 ## 🎯 Vision
 
 **Our vision is to enhance AI-assisted development by providing a free, open-source toolkit that brings enterprise-grade multi-agent workflows to developers using AI coding assistants.**
@@ -23,58 +84,6 @@ Our long-term vision is to make OpenADK a **universal enhancement layer** that w
 - Write once, enhance any AI assistant
 
 This model-agnostic approach ensures your investment in workflows and configurations remains valuable regardless of which AI assistant you choose.
-
-## 🤖 Claude Code Integration
-
-OpenADK provides deep integration with Claude Code, offering:
-- **Multi-repository context management** - Work across multiple repos seamlessly
-- **Specialized AI agents** - Development, Security, testing, architecture, DevOps, and more
-- **Automated code review** - Pre-commit hooks with agent-based reviews
-- **Dynamic project discovery** - Automatically understands your project structure
-
-## ⚡ Get Started with OpenADK
-
-1. **Clone OpenADK in your parent directory** (next to your project repositories):
-   ```bash
-   git clone https://github.com/[your-org]/openadk.git
-   ```
-   
-   Your structure should look like:
-   ```
-   parent-directory/
-   ├── openadk/         # This repository
-   ├── your-repo-1/     # Your application repositories
-   ├── your-repo-2/
-   └── .../
-   ```
-
-2. **Start Claude Code**
-   ```bash
-   cd openadk
-   claude
-   ```
-   
-   The parent directory access is pre-configured in `.claude/settings.local.json` with permissions for `Read(../**)` and `List(..)`, so repository discovery works without approval prompts.
-   
-   **Alternative**: If you prefer, you can also start from the parent directory:
-   ```bash
-   cd parent-directory  # Go to the parent of openadk
-   claude openadk       # Start Claude with openadk as target
-   ```
-
-3. **Initialize - Two Options**
-   
-   **Option A: Work with all repositories**
-   Type `start` and Claude will:
-   - Discover all repositories in the parent directory
-   - Check their status
-   - Provide intelligent assistance across all repos
-   
-   **Option B: Work with specific repositories only**
-   Type `start [repo1] [repo2]` (e.g., `start backend frontend`) and Claude will:
-   - Work only with the specified repositories
-   - Ignore other repositories in the parent directory
-   - Focus assistance on your selected repos
 
 ## Key Features
 
