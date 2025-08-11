@@ -436,3 +436,19 @@ test_reports/
 *.crt
 credentials.json
 secrets.json
+
+# Project working directory
+# Ignore everything in _project/ by default
+_project/*
+
+# But track these specific files/patterns
+!_project/README.md
+!_project/.gitkeep
+!_project/*/.gitkeep
+!_project/*/TEMPLATE_*.md
+!_project/*/TEMPLATE_*.yaml
+
+# Always ignore generated content (even if it matches patterns above)
+_project/PROJECT_CONTEXT.yaml
+_project/*/*_generated.*
+_project/*/20??-*

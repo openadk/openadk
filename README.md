@@ -12,7 +12,17 @@ We believe that:
 - The future of development is multi-agent collaboration, where specialized AI agents work together on different aspects of your code
 - Open-source tools can dramatically amplify the capabilities of existing AI assistants
 
-*Note: Requires a Claude Code subscription.*
+### Current Focus: Claude Code
+OpenADK is currently optimized for Claude Code users, providing deep integration and specialized workflows. *Requires a Claude Code subscription.*
+
+### Future: Model-Agnostic Platform
+Our long-term vision is to make OpenADK a **universal enhancement layer** that works with any AI coding assistant:
+- Support for multiple AI CLIs (Codex CLI, Gemini CLI, and others)
+- Unified agent definitions that adapt to different models
+- Consistent multi-repository workflows across platforms
+- Write once, enhance any AI assistant
+
+This model-agnostic approach ensures your investment in workflows and configurations remains valuable regardless of which AI assistant you choose.
 
 ## 🤖 Claude Code Integration
 
@@ -26,7 +36,7 @@ OpenADK provides deep integration with Claude Code, offering:
 
 1. **Clone OpenADK in your parent directory** (next to your project repositories):
    ```bash
-   git clone https://github.com/yourusername/openadk.git
+   git clone https://github.com/[your-org]/openadk.git
    ```
    
    Your structure should look like:
