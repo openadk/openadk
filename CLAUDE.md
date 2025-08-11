@@ -2,10 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 🚀 QUICK START
+## 🚀 Quick Start
 
 **Just type: `start`** - Claude will discover all repositories and begin working.
 **Or type: `start [repo1] [repo2]`** - Claude will work only with the specified repositories.
+
+**Important for Claude:** When you see "start", do not use any bash commands during initialization. Use only the Read and LS tools to understand the project context. The specific sequence is detailed in START_INSTRUCTIONS below.
 
 (Don't use `/init` - that's only for CLAUDE.md improvements)
 
@@ -137,76 +139,106 @@ If the current repository contains a `.claude/` directory with agent configurati
 5. Never put project-specific information in CLAUDE.md
 6. The toolkit's own documentation serves as its development guide
 
-## START_INSTRUCTIONS
+## Start Instructions
 
-When the user types "start", follow these steps:
+When the user types "start", follow these steps in order:
 
-1. **Parse the command:**
-   - If just "start": Discover ALL repositories in parent directory
-   - If "start repo1 repo2 ...": Use ONLY the specified repositories
+### Step 1: Parse the command
+Understand what the user is asking for:
+- If just "start": Work with all repositories in parent directory
+- If "start repo1 repo2 ...": Work only with specified repositories
 
-2. **Auto-discover project context:**
-   ```bash
-   # For each repository, read key files to understand:
-   # - Project purpose (README.md)
-   # - Tech stack (package.json, go.mod, etc.)
-   # - Special configurations (.claude/ directory)
-   # Build internal model of what each repository does
-   ```
+### Step 2: Read current project context (no bash commands)
+Use the Read tool and LS tool (only within openadk directory):
+1. Read tool: README.md in current directory
+2. Read tool: CONTRIBUTING.md for development guidelines
+3. Read tool: _project/PROJECT_CONTEXT.yaml if it exists
+4. LS tool: Check .claude directory within openadk
+5. LS tool: Check _project directory within openadk
 
-3. **Discover repositories based on command:**
-   ```bash
-   # First, list all directories in parent
-   ls -la ../
-   
-   # Then check each directory for .git folder using git -C
-   # If no repos specified, check all directories
-   # If repos specified, only check those directories
-   ```
+### Step 3: Understand project from existing context
+Since LS tool for parent directory would require user approval:
+1. Check if PROJECT_CONTEXT.yaml already lists known repositories
+2. If user specified repositories (e.g., "start repo1 repo2"), note those names
+3. If just "start", assume working with openadk and any repos mentioned in PROJECT_CONTEXT.yaml
 
-4. **Understand each repository automatically:**
-   For each discovered repository:
-   - Read README.md to understand its purpose
-   - Check for package.json, go.mod, pyproject.toml to identify tech stack
-   - Look for .claude/ directory (indicates enhancement toolkit)
-   - Scan for API definitions, test directories, CI/CD configs
-   - Build mental model: "This is a React frontend" or "This is a Go microservice"
-   
-5. **Generate/Update _project/PROJECT_CONTEXT.yaml:**
-   Create or update a structured context store in `_project/` with:
-   - Project metadata and purpose
-   - Repository information and tech stacks
-   - Available agents (if .claude/ exists)
-   - Workflow patterns
-   - Development guidelines
-   - **Project-specific practices discovered**:
-     - Code style and linting rules
-     - Testing framework and patterns
-     - API conventions and patterns
-     - Security and compliance requirements
-     - Build and deployment processes
-     - Team conventions and tools
-   - Quick access facts for agents
-   
-   This file provides agents with instant context without re-reading everything, including all project-specific conventions.
+### Step 4: Read known repositories (using Read tool only)
+For repositories identified in Step 3:
+1. Read tool: Try to read ../repo-name/README.md
+2. Read tool: Try to read configuration files like ../repo-name/package.json
+3. If files don't exist, that's fine - the repository may not exist
 
-6. **Check the status of each repository:**
-   ```bash
-   # For each discovered repository, check git status
-   # Use git -C to run git commands in other directories
-   # Example: git -C ../repo-name status --short --branch
-   ```
+### Step 5: Generate/Update PROJECT_CONTEXT.yaml
+Create or update a structured context store in `_project/` with:
+- Project metadata and purpose
+- Repository information and tech stacks
+- Available agents (if .claude/ exists)
+- Workflow patterns and development guidelines
+- Project-specific practices discovered
+- Quick access facts for agents
 
-7. **Report the overall project status:**
-   - List all active repositories (discovered or specified)
-   - Look for uncommitted changes, untracked files, or branches not on main/master
-   - Identify any repositories that need attention
-   - Summarize the current state of the project
+### Step 6: Report project status
+Provide a clear summary to the user:
+- List all active repositories discovered
+- Note their purpose and technology stack
+- Mention available agents and tools
+- Be ready to help with any development task
 
-8. **Ask the user what they'd like to work on:**
+### Step 7: After initialization - working phase
+Only now, after all context is gathered, you may use bash commands for actual development work:
+- Checking git status with `git status --short --branch`
+- Running git commands with `git -C ../repo-name status`
+- Building, testing, or other development tasks
+
+### Important notes
+- During initialization (steps 1-6): Use only Read tool and LS tool (within openadk only)
+- LS tool on directories outside openadk requires user approval - don't use during initialization
+- After initialization (step 7+): Bash commands are allowed for actual work
+- Never use bash to read file contents - always use the Read tool
+- The initialization phase is about understanding, not executing
+
+### Step 8: Ask the user what they'd like to work on
    - Offer to help with any active repository
    - Suggest addressing any uncommitted changes if found
    - Be ready to assist with development, testing, or deployment tasks
+
+## Example: Correct Initialization Sequence
+
+Here's what Claude should do when the user types "start":
+
+```
+User: start
+
+Claude's process:
+
+1. Read current openadk project files:
+   - Read tool: README.md
+   - Read tool: CONTRIBUTING.md  
+   - Read tool: _project/PROJECT_CONTEXT.yaml (if exists)
+   - LS tool: .claude directory (within openadk)
+   - LS tool: _project directory (within openadk)
+
+2. Identify repositories from context:
+   - Check PROJECT_CONTEXT.yaml for known repositories
+   - Note any repository names from user's command
+
+3. Read identified repositories (may fail if they don't exist):
+   - Read tool: ../repo-name/README.md
+   - Read tool: ../repo-name/package.json
+   - Note: No LS tool outside openadk (would require approval)
+
+4. Generate or update PROJECT_CONTEXT.yaml
+
+5. Report status to user based on what was found
+
+6. Only now can bash commands be used for actual work
+```
+
+Key principles: 
+- No bash commands during initialization
+- LS tool only within openadk directory (other directories need approval)
+- Read tool can try to read files anywhere (will fail gracefully if not found)
+- Bash is for doing work after initialization is complete
 
 ## Repository Detection
 
