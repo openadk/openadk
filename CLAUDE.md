@@ -13,6 +13,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 (Don't use `/init` - that's only for CLAUDE.md improvements)
 
+## 🤖 MANDATORY: Agent Invocation Protocol
+
+**STOP: Before proceeding with ANY user request, you MUST apply these rules:**
+
+### Automatic Agent Invocation Rules (NO EXCEPTIONS)
+
+**Rule 1: Complex Task Detection**
+```
+IF user request involves 3+ steps OR mentions multiple components
+THEN immediately invoke project-manager agent FIRST
+EXAMPLES: "implement feature X", "set up system Y", "improve performance", "add authentication"
+```
+
+**Rule 2: Planning and Strategy Requests** 
+```
+IF user asks "what should we work on" OR "what's next" OR similar planning questions
+THEN immediately invoke project-manager agent
+NO DIRECT ANSWERS - agent invocation is MANDATORY
+```
+
+**Rule 3: Requirements and Specifications**
+```
+IF user request is vague OR missing details OR asks for recommendations
+THEN invoke requirements-analyst agent BEFORE any other work
+EXAMPLES: "add user management", "improve security", "optimize the app"
+```
+
+**Rule 4: Architecture and Design**
+```
+IF user mentions: architecture, design, scalability, integration, system, structure
+THEN invoke system-architect agent
+```
+
+**Rule 5: Pre-Commit MANDATORY Review**
+```
+BEFORE any git commit OR file modification completion:
+- invoke security-expert agent (security review)
+- invoke code-reviewer agent (code quality review)
+THIS IS NON-NEGOTIABLE
+```
+
+### Instant Agent Selection by Keywords
+
+**PROJECT PLANNING KEYWORDS** → project-manager agent:
+- plan, planning, roadmap, sprint, breakdown, organize, prioritize, timeline, tasks, workflow, "what should we", "what's next", manage, coordinate
+
+**REQUIREMENTS KEYWORDS** → requirements-analyst agent:  
+- requirements, specs, clarify, define, criteria, constraints, "what exactly", unclear, vague, recommendation, "how should we"
+
+**ARCHITECTURE KEYWORDS** → system-architect agent:
+- architecture, design, structure, scalable, integration, system, technology choice, patterns, framework, performance optimization
+
+**SECURITY KEYWORDS** → security-expert agent:
+- security, vulnerability, auth, authentication, authorization, encryption, permission, access, secure, compliance
+
+**TESTING KEYWORDS** → test-engineer agent:
+- test, testing, coverage, quality, validate, verification, QA, quality assurance
+
+**CODE REVIEW KEYWORDS** → code-reviewer agent:
+- review, refactor, quality, best practices, clean code, maintainability, standards
+
+**INFRASTRUCTURE KEYWORDS** → devops-engineer agent:
+- deploy, deployment, infrastructure, CI/CD, pipeline, build, docker, kubernetes
+
+### Agent Invocation Command Format
+
+When you detect a trigger, immediately use this format:
+```
+I need to invoke the [agent-name] agent for this task.
+
+Let me start by using the [agent-name] agent to [specific purpose].
+```
+
+Then immediately invoke the agent using the proper agent tool.
+
+**IMPORTANT: Do not attempt to handle complex requests directly. Always use the appropriate agent first.**
+
+### VALIDATION CHECKLIST - Apply to Every User Request
+
+Before responding to ANY user request, complete this checklist:
+
+- [ ] **Step 1**: Does this request contain planning keywords? → If YES, invoke project-manager agent
+- [ ] **Step 2**: Does this request contain requirements keywords? → If YES, invoke requirements-analyst agent  
+- [ ] **Step 3**: Does this request contain architecture keywords? → If YES, invoke system-architect agent
+- [ ] **Step 4**: Does this request involve 3+ steps or multiple components? → If YES, invoke project-manager agent
+- [ ] **Step 5**: Is the request vague or missing details? → If YES, invoke requirements-analyst agent
+- [ ] **Step 6**: Only after completing steps 1-5, proceed with implementation
+- [ ] **Step 7**: Before any commits, ALWAYS invoke security-expert AND code-reviewer agents
+
+**If ANY checkbox is checked, you MUST invoke the corresponding agent BEFORE doing anything else.**
+
+### Examples of MANDATORY Agent Invocation
+
+**User says: "What should we work on next?"**
+- ✅ CORRECT: "I need to invoke the project-manager agent for this planning question. Let me start by using the project-manager agent to assess current project status and recommend next steps."
+- ❌ WRONG: "Based on your repositories, I suggest..."
+
+**User says: "Add user authentication to the app"**  
+- ✅ CORRECT: "I need to invoke the requirements-analyst agent for this complex feature. Let me start by using the requirements-analyst agent to clarify authentication requirements and scope."
+- ❌ WRONG: "I'll help you add authentication. First, let me check..."
+
+**User says: "How should we architect the payment system?"**
+- ✅ CORRECT: "I need to invoke the system-architect agent for this design question. Let me start by using the system-architect agent to evaluate payment system architecture options."
+- ❌ WRONG: "For payment systems, I recommend..."
+
 ## Project Context Auto-Discovery
 
 When working in any repository, automatically build understanding from:
@@ -202,10 +307,15 @@ Only now, after all context is gathered, you may use bash commands for actual de
 - Never use bash to read file contents - always use the Read tool
 - The initialization phase is about understanding, not executing
 
-### Step 8: Ask the user what they'd like to work on
+### Step 8: Ask the user what they'd like to work on + MANDATORY Agent Protocol
    - Offer to help with any active repository
    - Suggest addressing any uncommitted changes if found
+   - **CRITICAL**: Inform the user that specialized agents are ready:
+     - "I have specialized agents ready for different tasks: project planning, requirements analysis, architecture design, security reviews, testing, and code reviews."
+     - "What would you like to work on? I'll automatically invoke the appropriate agents based on your request using the Mandatory Agent Invocation Protocol."
    - Be ready to assist with development, testing, or deployment tasks
+   - **MANDATORY**: Apply the Agent Invocation Protocol rules to the user's response - no exceptions
+   - **REMEMBER**: Questions like "what should we work on" automatically trigger project-manager agent invocation
 
 ## Example: Correct Initialization Sequence
 
@@ -301,16 +411,41 @@ For all other work, focus on the APPLICATION code and features.
 
 **Important**: These directories are git-ignored. They're working spaces for agents to store their outputs without cluttering the repository.
 
-## Specialized Agent Usage
+## 🔄 Multi-Agent Coordination Patterns
 
-When working on tasks, leverage the appropriate specialized agents:
-- **system-architect**: For technology decisions, architecture design, and system-wide changes
-- **project-manager**: For breaking down complex tasks and managing project workflows
-- **requirements-analyst**: For gathering and refining requirements before implementation
-- **security-expert**: For security reviews and identifying vulnerabilities
-- **test-engineer**: For creating comprehensive tests and analyzing coverage
-- **code-reviewer**: For reviewing code quality and adherence to best practices
-- **devops-engineer**: For infrastructure, CI/CD, and deployment concerns
+**Standard Workflows for Complex Tasks:**
+
+### Pattern 1: New Feature Development (7-step process)
+1. **requirements-analyst** → Gather and clarify requirements
+2. **system-architect** → Design approach and integration
+3. **project-manager** → Break down work and plan sprints
+4. **Implementation** → Code the feature
+5. **test-engineer** → Create comprehensive tests
+6. **security-expert** → Security review
+7. **code-reviewer** → Final quality review
+
+### Pattern 2: Complex Project Management (5-step process)
+1. **project-manager** → Initial assessment and breakdown
+2. **system-architect** → Technical feasibility and architecture
+3. **requirements-analyst** → Detailed requirements per component
+4. **devops-engineer** → Infrastructure and deployment strategy
+5. **Iterative implementation with regular reviews**
+
+### Pattern 3: Code Quality Improvement (5-step process)
+1. **code-reviewer** → Identify quality issues
+2. **test-engineer** → Analyze test coverage gaps
+3. **security-expert** → Security vulnerability assessment
+4. **system-architect** → Architectural improvements
+5. **project-manager** → Prioritize and plan improvements
+
+### Agent Coordination Rules
+
+**CRITICAL COORDINATION RULES:**
+
+1. **Never implement without planning** → If user asks for implementation, FIRST use project-manager to break it down
+2. **Never commit without review** → ALWAYS run security-expert and code-reviewer before any commit
+3. **Never design without requirements** → If architecture is needed, FIRST clarify requirements with requirements-analyst
+4. **Always test what you build** → After implementation, ALWAYS use test-engineer for comprehensive testing
 
 **IMPORTANT**: All agents MUST follow the project-native development practices identified above. When invoking any agent, ensure they:
 1. Read _project/PROJECT_CONTEXT.yaml for project conventions
@@ -322,11 +457,8 @@ When working on tasks, leverage the appropriate specialized agents:
 ## Development Guidelines
 
 ### Multi-Agent Workflow Pattern
-1. Use requirements-analyst agent first for complex features
-2. Consult system-architect for architectural decisions
-3. Break down work with project-manager agent
-4. Implement with appropriate domain agents
-5. Always run security-expert and code-reviewer before finalizing
+
+**DEPRECATED**: This section has been replaced by the "Mandatory Agent Invocation Protocol" at the top of this document and the "Multi-Agent Coordination Patterns" above.
 
 ### Repository Discovery
 - The toolkit should automatically discover repositories in the parent directory
@@ -344,8 +476,10 @@ When working on tasks, leverage the appropriate specialized agents:
 - `start`: Initialize and discover all repositories in parent directory
 
 ### Agent Invocation
-- Agents should be invoked programmatically based on task context
-- Each agent has specific expertise - use them accordingly
+- **MANDATORY**: Follow the "Mandatory Agent Invocation Protocol" at the top of this document for EVERY task
+- Apply the automatic invocation rules without exception
+- Use the keyword-based triggers to instantly select appropriate agents
+- Always invoke multiple agents for complex tasks using the coordination patterns
 
 ## Architecture Principles
 
