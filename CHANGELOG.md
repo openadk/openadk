@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Repository Analysis System** - Comprehensive health check across 8 dimensions
+  - New `analyze` and `health` commands for repository evaluation
+  - Multi-dimensional analysis: Maintainability, Scalability, Reliability, Security, Performance, Testability, Documentation, Operational Readiness
+  - Automated agent coordination for deep analysis
+  - Unified reporting in markdown and YAML formats
+- **Simplified _project Directory** - Cleaner output structure
+  - Reduced to just `reports/` and `archive/` directories
+  - Better accessibility for human developers
+  - Historical tracking capability
 - Parent directory permissions in `settings.local.json` for seamless repository discovery
 - Template file `TEMPLATE_PROJECT_CONTEXT.yaml` showing structure without hardcoded data
 - Flexible setup options for single or multiple repositories

@@ -390,6 +390,54 @@ These should remain stable during normal development. Only modify configuration 
 
 For all other work, focus on the APPLICATION code and features.
 
+## 🔍 Repository Analysis System
+
+### Overview
+OpenADK includes a comprehensive repository analysis system that evaluates code health across 8 critical dimensions. This system leverages all specialized agents to provide deep insights and actionable recommendations.
+
+### The `analyze` Command
+When the user types `analyze` or `health`:
+
+1. **Run Basic Analysis**: Execute `./analyze-repo.sh` to gather repository metrics
+2. **Invoke Specialized Agents**: Automatically use agents for deep analysis:
+   - **code-reviewer** + **system-architect** → Maintainability assessment
+   - **system-architect** + **devops-engineer** → Scalability evaluation
+   - **test-engineer** + **devops-engineer** → Reliability analysis
+   - **security-expert** → Security vulnerability scan
+   - **code-reviewer** → Performance and Documentation review
+   - **test-engineer** → Testability assessment
+   - **devops-engineer** → Operational readiness check
+3. **Generate Comprehensive Report**: Combine all agent findings into unified report
+4. **Store in _project/reports/**: Save both markdown and YAML versions
+
+### Analysis Dimensions
+Each dimension provides specific insights:
+- **Maintainability**: Code quality, technical debt, refactoring needs
+- **Scalability**: Architecture patterns, bottlenecks, growth capacity
+- **Reliability**: Error handling, fault tolerance, recovery mechanisms
+- **Security**: Vulnerabilities, authentication, data protection
+- **Performance**: Optimization opportunities, resource usage
+- **Testability**: Coverage, test quality, CI/CD integration
+- **Documentation**: Completeness, clarity, maintenance
+- **Operational Readiness**: Deployment, monitoring, incident response
+
+### Analysis Workflow
+```
+User: analyze
+Claude: 
+1. Runs ./analyze-repo.sh for basic metrics
+2. Invokes multiple agents in parallel for deep analysis
+3. Aggregates findings into comprehensive report
+4. Provides prioritized recommendations
+5. Stores report in _project/reports/
+```
+
+### Report Structure
+Reports are stored in simplified _project structure:
+- `_project/reports/` - Current analysis reports
+- `_project/archive/` - Historical reports for trend analysis
+- No cluttered subdirectories - just clean, accessible outputs
+
 ## Context Store & Artifacts
 
 ### Context Store Usage
@@ -474,6 +522,11 @@ For all other work, focus on the APPLICATION code and features.
 
 ### Initialization
 - `start`: Initialize and discover all repositories in parent directory
+- `start [repo1] [repo2]`: Initialize with specific repositories only
+
+### Repository Analysis
+- `analyze`: Run comprehensive repository health analysis with multi-dimensional evaluation
+- `health`: Quick health check of current repository (alias for analyze)
 
 ### Agent Invocation
 - **MANDATORY**: Follow the "Mandatory Agent Invocation Protocol" at the top of this document for EVERY task

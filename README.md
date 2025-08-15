@@ -63,6 +63,14 @@ Type `start [repo1] [repo2]` (e.g., `start backend frontend`) and Claude will:
 - Ignore other repositories in the parent directory
 - Focus assistance on your selected repositories
 
+### Analyze Repository Health
+
+Type `analyze` or `health` to get a comprehensive evaluation of your code:
+- **8 Dimensions**: Maintainability, Scalability, Reliability, Security, Performance, Testability, Documentation, Operational Readiness
+- **Multi-Agent Analysis**: Leverages all specialized agents for deep insights
+- **Actionable Reports**: Get prioritized recommendations with effort estimates
+- **Clean Output**: Reports stored in `_project/reports/` for easy access
+
 ## 🎯 Vision
 
 **Our vision is to enhance AI-assisted development by providing a free, open-source toolkit that brings enterprise-grade multi-agent workflows to developers using AI coding assistants.**
@@ -87,6 +95,7 @@ This model-agnostic approach ensures your investment in workflows and configurat
 
 ## Key Features
 
+- **🔍 Repository Health Analysis** - Comprehensive 8-dimensional code evaluation
 - **Multi-Repository Management** - Seamlessly work across multiple repos
 - **Specialized Agents** - Pre-configured agents for different development tasks
 - **Automated Code Review** - AI-powered pre-commit reviews
