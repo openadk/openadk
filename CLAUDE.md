@@ -83,12 +83,23 @@ When you detect a trigger, immediately use this format:
 ```
 I need to invoke the [agent-name] agent for this task.
 
+IMPORTANT: This agent must follow AGENT_GUIDELINES.md - no time estimates, only priorities.
+
 Let me start by using the [agent-name] agent to [specific purpose].
 ```
 
 Then immediately invoke the agent using the proper agent tool.
 
 **IMPORTANT: Do not attempt to handle complex requests directly. Always use the appropriate agent first.**
+
+**CRITICAL: All agents MUST use the structured planning API:**
+- Use `python validation/planning_api.py` for creating plans (enforces compliance)
+- Use `python validation/enforce_planning.py` to validate any text output
+- Use `python validation/check_time_estimates.py` to verify compliance
+- FORBIDDEN: Time-based estimates (automatically rejected by validation)
+- REQUIRED: Priority-based planning using ONLY: critical, high, medium, low
+- REQUIRED: Complexity ratings using ONLY: simple, moderate, complex
+- All outputs are validated against `validation/planning_rules.yaml`
 
 ### VALIDATION CHECKLIST - Apply to Every User Request
 
@@ -469,6 +480,8 @@ Reports are stored in simplified _project structure:
 
 ## 🔄 Multi-Agent Coordination Patterns
 
+**REMINDER: All agents must follow AGENT_GUIDELINES.md - NO time estimates, only priority-based planning**
+
 **Standard Workflows for Complex Tasks:**
 
 ### Pattern 1: New Feature Development (7-step process)
@@ -504,11 +517,14 @@ Reports are stored in simplified _project structure:
 4. **Always test what you build** → After implementation, ALWAYS use test-engineer for comprehensive testing
 
 **IMPORTANT**: All agents MUST follow the project-native development practices identified above. When invoking any agent, ensure they:
-1. Read _project/PROJECT_CONTEXT.yaml for project conventions
-2. Follow the discovered code style, testing, and security practices
-3. Adapt their output to match the project's culture and standards
-4. Use project-specific tools and frameworks
-5. Respect team conventions and domain language
+1. Read AGENT_GUIDELINES.md for mandatory planning and estimation rules
+2. Read _project/PROJECT_CONTEXT.yaml for project conventions and goals
+3. Follow the discovered code style, testing, and security practices
+4. Adapt their output to match the project's culture and standards
+5. Use project-specific tools and frameworks
+6. Respect team conventions and domain language
+7. NEVER provide time-based estimates - use priority levels only
+8. ALWAYS align work with project goals defined in PROJECT_CONTEXT.yaml
 
 ## Development Guidelines
 

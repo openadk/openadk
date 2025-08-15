@@ -1,0 +1,255 @@
+# OpenADK Planning Rules Configuration
+# Strict, machine-enforceable rules for all planning outputs
+
+# These are the ONLY allowed values for planning
+allowed_values:
+  priorities:
+    - critical
+    - high
+    - medium
+    - low
+  
+  complexity:
+    - simple
+    - moderate
+    - complex
+    
+  size:
+    - small
+    - medium
+    - large
+    - extra_large
+    
+  status:
+    - not_started
+    - in_progress
+    - blocked
+    - completed
+    - cancelled
+    
+  risk_level:
+    - low
+    - medium
+    - high
+    - critical
+    
+  confidence:
+    - high
+    - medium
+    - low
+
+# Forbidden terms that trigger automatic rejection
+forbidden_terms:
+  time_units:
+    - day
+    - days
+    - week
+    - weeks
+    - month
+    - months
+    - year
+    - years
+    - hour
+    - hours
+    - minute
+    - minutes
+    - quarter
+    - quarters
+    
+  deadline_terms:
+    - deadline
+    - due date
+    - due by
+    - complete by
+    - finish by
+    - deliver by
+    - timeline
+    - timeframe
+    - schedule
+    
+  temporal_references:
+    - tomorrow
+    - yesterday
+    - today
+    - next week
+    - last week
+    - this month
+    - next month
+    - this year
+    - next year
+    - soon
+    - later
+    - eventually
+    - immediately
+    - asap
+    - urgent
+
+# Required fields for different output types
+required_fields:
+  task:
+    - name
+    - priority
+    - complexity
+    - dependencies
+    
+  milestone:
+    - name
+    - priority
+    - success_criteria
+    - prerequisites
+    
+  roadmap:
+    - phases
+    - priorities
+    - dependencies
+    
+  sprint:
+    - objectives
+    - priorities
+    - capacity_points
+    
+# Output templates that enforce structure
+templates:
+  task_item: |
+    name: {name}
+    priority: {priority}  # Must be: critical|high|medium|low
+    complexity: {complexity}  # Must be: simple|moderate|complex
+    dependencies: {dependencies}
+    acceptance_criteria: {criteria}
+    
+  priority_list: |
+    CRITICAL PRIORITY:
+    {critical_items}
+    
+    HIGH PRIORITY:
+    {high_items}
+    
+    MEDIUM PRIORITY:
+    {medium_items}
+    
+    LOW PRIORITY:
+    {low_items}
+    
+  roadmap_phase: |
+    Phase {number}:
+      Priority: {priority}
+      Objectives:
+        {objectives}
+      Success Criteria:
+        {criteria}
+      Dependencies:
+        {dependencies}
+
+# Transformation rules for automatic correction
+transformations:
+  # Time to priority mappings
+  "1 day": "Priority: Critical"
+  "2-3 days": "Priority: High"
+  "1 week": "Priority: High"
+  "2 weeks": "Priority: Medium"
+  "1 month": "Priority: Low"
+  "2-3 months": "Priority: Low"
+  
+  # Effort to complexity mappings
+  "1 hour": "Complexity: Simple"
+  "2-4 hours": "Complexity: Simple"
+  "1 day": "Complexity: Moderate"
+  "2-3 days": "Complexity: Complex"
+  "1 week": "Complexity: Complex"
+  
+  # Quarter to priority mappings
+  "Q1": "Priority 1"
+  "Q2": "Priority 2"
+  "Q3": "Priority 3"
+  "Q4": "Priority 4"
+
+# Validation regex patterns
+validation_patterns:
+  valid_priority: '^(critical|high|medium|low|priority\s+\d+)$'
+  valid_complexity: '^(simple|moderate|complex)$'
+  valid_size: '^(small|medium|large|extra_large)$'
+  valid_status: '^(not_started|in_progress|blocked|completed|cancelled)$'
+  
+  # Patterns that should NOT match (will fail validation)
+  invalid_time: '\d+\s*(day|week|month|hour)s?'
+  invalid_date: '\d{4}-\d{2}-\d{2}'
+  invalid_quarter: 'Q[1-4]\s+\d{4}'
+
+# Scoring rules for prioritization
+scoring:
+  priority_weights:
+    critical: 1000
+    high: 100
+    medium: 10
+    low: 1
+    
+  complexity_weights:
+    simple: 1
+    moderate: 3
+    complex: 8
+    
+  risk_multipliers:
+    low: 1.0
+    medium: 1.5
+    high: 2.0
+    critical: 3.0
+
+# Agent-specific rules
+agent_rules:
+  project-manager:
+    must_use:
+      - priorities
+      - complexity
+      - dependencies
+    cannot_use:
+      - time_units
+      - deadline_terms
+    output_format: structured_yaml
+    
+  system-architect:
+    must_use:
+      - priorities
+      - risk_level
+      - dependencies
+    cannot_use:
+      - time_units
+      - temporal_references
+    output_format: structured_yaml
+    
+  requirements-analyst:
+    must_use:
+      - priorities
+      - success_criteria
+    cannot_use:
+      - deadline_terms
+      - temporal_references
+    output_format: structured_yaml
+    
+  test-engineer:
+    must_use:
+      - priorities
+      - complexity
+      - coverage_targets
+    cannot_use:
+      - time_units
+      - deadline_terms
+    output_format: structured_yaml
+
+# Enforcement levels
+enforcement:
+  level: strict  # strict|warning|suggestion
+  
+  strict_mode:
+    reject_on_violation: true
+    auto_transform: false
+    require_structured_output: true
+    
+  warning_mode:
+    reject_on_violation: false
+    auto_transform: true
+    require_structured_output: false
+    
+  suggestion_mode:
+    reject_on_violation: false
+    auto_transform: false
+    require_structured_output: false

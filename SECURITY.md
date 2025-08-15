@@ -35,8 +35,8 @@ The OpenADK team takes the security of our software seriously. If you believe yo
 
 ### What to expect:
 
-* An acknowledgment of your report within 48 hours
-* An assessment of the issue and expected resolution timeline within 1 week
+* Priority acknowledgment of your report
+* Swift assessment of the issue and resolution planning
 * Regular updates on the progress of fixing the vulnerability
 * Credit in the release notes (unless you prefer to remain anonymous)
 

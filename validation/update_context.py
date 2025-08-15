@@ -230,9 +230,9 @@ def main():
             'Keep resource usage minimal'
         ],
         'milestones': [
-            'Q1 2025: Core validation system complete',
-            'Q2 2025: Multi-model support beta',
-            'Q3 2025: Enterprise features release'
+            'Priority 1: Core validation system complete',
+            'Priority 2: Multi-model support beta',
+            'Priority 3: Enterprise features release'
         ],
         'non_goals': [
             'Replacing human developers',
