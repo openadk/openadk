@@ -255,13 +255,15 @@ Understand what the user is asking for:
 - If just "start": Work with all repositories in parent directory
 - If "start repo1 repo2 ...": Work only with specified repositories
 
-### Step 2: Read current project context (no bash commands)
+### Step 2: Validate and read current project context (no bash commands)
 Use the Read tool and LS tool:
 1. Read tool: README.md in current directory
 2. Read tool: CONTRIBUTING.md for development guidelines
 3. Read tool: _project/PROJECT_CONTEXT.yaml (only if it exists from a previous run)
-4. LS tool: Check .claude directory
-5. LS tool: Check _project directory
+4. If PROJECT_CONTEXT.yaml exists, validate it: `python validation/validate_context.py`
+5. LS tool: Check .claude directory
+6. LS tool: Check _project directory
+7. Run agent validation: `./validation/validate.sh` (checks all agent templates)
 Note: PROJECT_CONTEXT.yaml is generated, not tracked in git
 
 ### Step 3: Discover repositories (using LS tool)
@@ -276,14 +278,20 @@ For each repository discovered in Step 3:
 2. Read tool: Read configuration files like ../repo-name/package.json
 3. Build understanding of each repository's technology and purpose
 
-### Step 5: Generate/Update PROJECT_CONTEXT.yaml
-Create or update a structured context store in `_project/` with:
-- Project metadata and purpose (from discovered repos, NOT including openadk itself)
-- Repository information and tech stacks (actual application repos only)
-- Available agents (from openadk's .claude/ directory)
-- Workflow patterns and development guidelines
-- Project-specific practices discovered
-- Quick access facts for agents
+### Step 5: Generate/Update PROJECT_CONTEXT.yaml (Incremental Updates)
+**IMPORTANT: Use incremental updates, not full rewrites**
+1. First run validation: `python validation/validate_context.py`
+2. Use `python validation/update_context.py` for incremental changes:
+   - Only update fields that have changed
+   - Preserve existing goals and configurations
+   - Add new repositories without overwriting existing ones
+   - Update current_focus for active work
+3. Context should include:
+   - Project metadata with **goals** section (primary_objective, success_metrics, constraints)
+   - Repository information and tech stacks
+   - Available agents from .claude/ directory
+   - Workflow patterns and development guidelines
+   - Current focus for each repository
 Note: PROJECT_CONTEXT.yaml is .gitignored and unique to each user's setup
 
 ### Step 6: Report project status

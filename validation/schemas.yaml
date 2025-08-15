@@ -1,0 +1,168 @@
+# OpenADK Validation Schemas
+# Defines the structure and requirements for agent templates and project context
+
+agent_template_schema:
+  required_fields:
+    - name
+    - description
+    - model
+    - color
+  
+  field_specifications:
+    name:
+      type: string
+      pattern: "^[a-z-]+$"
+      max_length: 50
+      description: "Agent identifier using lowercase and hyphens"
+    
+    description:
+      type: string
+      min_length: 50
+      max_length: 2000
+      must_include:
+        - "Use this agent"
+        - "Examples:"
+      description: "Clear description with usage examples"
+    
+    model:
+      type: string
+      allowed_values:
+        - sonnet
+        - opus
+        - haiku
+      description: "Model specification for agent"
+    
+    color:
+      type: string
+      allowed_values:
+        - green
+        - blue
+        - red
+        - yellow
+        - purple
+        - cyan
+        - orange
+      description: "Color for agent identification"
+  
+  content_requirements:
+    min_length: 500
+    must_include_sections:
+      - "primary responsibilities"
+      - "expertise"
+    recommended_sections:
+      - "approach"
+      - "best practices"
+      - "output format"
+
+project_context_schema:
+  required_sections:
+    - project
+    - repositories
+    - conventions
+    - development_guidelines
+    - quick_reference
+  
+  project_section:
+    required_fields:
+      - name
+      - type
+      - description
+      - initialized_at
+      - goals  # NEW: Added for goal alignment
+    
+    field_specifications:
+      name:
+        type: string
+        max_length: 100
+      
+      type:
+        type: string
+        allowed_values:
+          - single-repository
+          - single-repository-focus
+          - multi-repository
+          - monorepo
+      
+      description:
+        type: string
+        max_length: 500
+      
+      initialized_at:
+        type: date
+        format: "YYYY-MM-DD"
+      
+      goals:  # NEW: Goal representation
+        type: object
+        required_fields:
+          - primary_objective
+          - success_metrics
+          - constraints
+        optional_fields:
+          - milestones
+          - non_goals
+  
+  repository_section:
+    per_repository_fields:
+      required:
+        - path
+        - description
+        - technology_stack
+        - status
+        - has_git
+      optional:
+        - main_files
+        - features
+        - scripts
+        - notes
+        - current_focus  # NEW: What's being worked on
+    
+    field_specifications:
+      status:
+        allowed_values:
+          - active
+          - inactive
+          - archived
+          - maintenance
+      
+      technology_stack:
+        type: array
+        items: string
+  
+  conventions_section:
+    recommended_fields:
+      - commit_style
+      - branch_strategy
+      - documentation
+      - testing_approach
+      - code_style
+  
+  development_guidelines_section:
+    recommended_fields:
+      - testing
+      - security
+      - code_style
+      - agent_usage
+      - review_process
+  
+  quick_reference_section:
+    required_fields:
+      - available_agents
+      - working_directories
+      - key_commands
+
+validation_rules:
+  agent_template:
+    - frontmatter_must_be_valid_yaml
+    - description_must_contain_examples
+    - examples_must_be_properly_formatted
+    - model_must_be_valid
+    - content_must_define_role
+    - no_duplicate_agent_names
+  
+  project_context:
+    - must_be_valid_yaml
+    - repositories_must_exist
+    - paths_must_be_valid
+    - dates_must_be_iso_format
+    - goals_must_be_measurable
+    - no_hardcoded_absolute_paths_except_working_dirs

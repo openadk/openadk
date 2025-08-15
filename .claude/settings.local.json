@@ -123,7 +123,8 @@
       "Bash(./review-repo.sh)",
       "Bash(true)",
       "Bash(./analyze-repo.sh)",
-      "Bash(./analyze-repo.sh:*)"
+      "Bash(./analyze-repo.sh:*)",
+      "Bash(./validation/validate.sh:*)"
     ],
     "deny": [
       "// Prevent Claude from modifying its own configuration",
